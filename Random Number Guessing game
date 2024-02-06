@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+int main() {
+    // Write C++ code here
+    int randnum,usernum;
+    srand(time(NULL));
+    randnum=rand()%100+1;
+    cout<<"Welcome to Number Guessing game"<<endl;
+    cout<<"Guess the Number Between 1 to 100"<<endl;
+    do
+    {
+        cout<<"Enter your guess: ";
+        scanf("%d",&usernum);
+        if(randnum < usernum)
+        {
+            cout<<"It is High! Try Again\n";
+        }
+        else if(randnum > usernum)
+        {
+            cout<<"Its is Low! Try Again\n";
+        }
+        else
+        {
+            cout<<"Congrats! You Guessed the correct one.";
+        }
+    }while(randnum!=usernum);
+    return 0;
+}
