@@ -1,0 +1,35 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+void grayscale(int width, int height, unsigned char* imageData) {
+    for (int i = 0; i < width * height; ++i) {
+        // Grayscale value = 0.3 * R + 0.59 * G + 0.11 * B
+        unsigned char gray = 0.3 * imageData[i * 3] + 0.59 * imageData[i * 3 + 1] + 0.11 * imageData[i * 3 + 2];
+        imageData[i * 3] = imageData[i * 3 + 1] = imageData[i * 3 + 2] = gray;
+    }
+}
+int main() {
+    ifstream inputFile("input_image.raw", ios::binary);
+    if (!inputFile) {
+        cout << "Error: Unable to open input image file." << endl;
+        return 1;
+    }
+    int width = 256;
+    int height = 256; 
+    unsigned char* imageData = new unsigned char[width * height * 3];
+    inputFile.read(reinterpret_cast<char*>(imageData), width * height * 3);
+    inputFile.close();
+    grayscale(width, height, imageData);
+    ofstream outputFile("output_image.raw", ios::binary);
+    if (!outputFile) {
+        cout << "Error: Unable to open output image file." << endl;
+        delete[] imageData;
+        return 1;
+    }
+    outputFile.write(reinterpret_cast<char*>(imageData), width * height * 3);
+    outputFile.close();
+    delete[] imageData;
+    
+    cout << "Image processing complete. Output saved as output_image.raw" << endl;
+    return 0;
+}
